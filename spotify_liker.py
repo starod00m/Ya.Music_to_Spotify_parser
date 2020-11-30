@@ -3,7 +3,7 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 import argparse
 
-parser = argparse.ArgumentParser(description='Ya.Music parser')
+parser = argparse.ArgumentParser(description='Spotify liker')
 
 parser.add_argument('login', action="store", help='login')
 parser.add_argument('password', action="store", help='password')
@@ -20,8 +20,9 @@ def get_tracks() -> list:
     return tracks
 
 tracks = get_tracks()
-print(tracks)
-browser = webdriver.Chrome(executable_path=args.path)
+options = webdriver.ChromeOptions()
+options.add_experimental_option("excludeSwitches", ["enable-logging"])
+browser = webdriver.Chrome(options=options, executable_path=args.path)
 browser.get('https://accounts.spotify.com/en/login?continue=https:%2F%2Fopen.spotify.com%2F')
 time.sleep(1)
 browser.find_element_by_id('login-username').send_keys(args.login)
